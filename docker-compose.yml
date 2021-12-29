@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
+    container_name: elasticsearch
+    restart: on-failure
+    volumes:
+      - esdata:/usr/share/elasticsearch/data:rw
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - cluster.name=jaeger-cluster
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.0.0
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+
+  redis:
+    image: redis:${REDIS_IMAGE_VERSION:-6.2.6}
+    container_name: redis
+    volumes:
+      - redis:/data:rw
+    ports:
+      - 6379:6379
+
+  web:
+    image: suy3024/fastapi-celery:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      shm_size: 16gb
+      args:
+        PYTHON_VERSION: ${PYTHON_VERSION:-3.9}
+    shm_size: 16gb
+    container_name: web
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/workspace:rw
+      - ${BASE_VOLUME_DIR:-./logs}/web:/tmp/logs:rw
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL:-redis://redis}
+      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND:-elasticsearch://elasticsearch:9200/background_task/result}
+    depends_on:
+      - redis
+      - elasticsearch
+
+  worker:
+    image: suy3024/fastapi-celery:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
+    container_name: worker
+    shm_size: 16gb
+    volumes:
+      - .:/workspace:rw
+      - ${BASE_VOLUME_DIR:-./logs}/worker:/tmp/logs:rw
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL:-redis://redis}
+      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND:-elasticsearch://elasticsearch:9200/background_task/result}
+    depends_on:
+      - web
+      - redis
+      - elasticsearch
+    entrypoint: celery -A backend.worker.celery worker --task-events --autoscale=6,2
+      --loglevel=info --logfile=/tmp/logs/celery.log
+
+  flower:
+    image: suy3024/fastapi-celery:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
+    container_name: flower
+    shm_size: 16gb
+    ports:
+      - 5555:5555
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL:-redis://redis}
+      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND:-elasticsearch://elasticsearch:9200/background_task/result}
+    depends_on:
+      - web
+      - redis
+      - worker
+      - elasticsearch
+    entrypoint: celery -A backend.worker.celery
+      --broker=${CELERY_BROKER_URL:-redis://redis} flower --port=5555
+
+volumes:
+  redis: {}
+  esdata: {}
+  eslog: {}
+  servicelog: {}

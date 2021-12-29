@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  elasticsearch: null
+
+  kibana: null
+
+  redis:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      replicas: 6
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+
+  web: null
+
+  worker: null
+
+  flower: null

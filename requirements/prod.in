@@ -1,0 +1,13 @@
+celery==5.2.1
+fastapi==0.70.1
+flower==1.0.0
+pytest==6.2.5
+redis==4.0.2
+uvicorn==0.16.0
+orjson==3.6.5
+httpx==0.21.1
+python-multipart==0.0.5
+pillow==8.4.0
+opencv-python==4.5.4.60
+elasticsearch==7.16.1
+requests==2.26.0
