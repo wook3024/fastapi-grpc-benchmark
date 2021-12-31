@@ -13,8 +13,8 @@ from multiprocessing import Process
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import ORJSONResponse
 
-from .. import schemas
-from ..worker import (
+from backend.rest import schemas
+from backend.worker import (
     save_image_task,
     default_multiprocessing_task,
     ray_multiprocessing_task,

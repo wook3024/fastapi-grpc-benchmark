@@ -16,3 +16,8 @@ def save_image_data(encoded_base64_data: str, save_image_path: Union[str, Path])
     cv2.imwrite(save_image_path.as_posix(), np_array)
     image_shape = "×".join([str(value) for value in np_array.shape])
     return image_shape
+
+
+def save_bytes_data(save_url: str, data: bytes):
+    with open(save_url, "wb") as f:
+        f.write(data)

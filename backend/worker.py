@@ -5,7 +5,7 @@ import psutil
 from os import environ
 from celery import Celery
 
-from .utils.save import save_image_data
+from backend.utils.save import save_image_data
 
 
 num_logical_cpus = psutil.cpu_count(logical=False)
