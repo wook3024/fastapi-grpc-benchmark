@@ -37,7 +37,7 @@ services:
       - 6379:6379
 
   web:
-    image: suy3024/fastapi-celery:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
+    image: suy3024/grpc-fastapi-benchmark:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
     build:
       context: .
       dockerfile: Dockerfile
@@ -59,7 +59,7 @@ services:
       - elasticsearch
 
   worker:
-    image: suy3024/fastapi-celery:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
+    image: suy3024/grpc-fastapi-benchmark:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
     container_name: worker
     shm_size: 16gb
     volumes:
@@ -76,7 +76,7 @@ services:
       --loglevel=info --logfile=/tmp/logs/celery.log
 
   flower:
-    image: suy3024/fastapi-celery:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
+    image: suy3024/grpc-fastapi-benchmark:${FASTAPI_CELERY_IMAGE_VERSION:-0.0.0}
     container_name: flower
     shm_size: 16gb
     ports:
