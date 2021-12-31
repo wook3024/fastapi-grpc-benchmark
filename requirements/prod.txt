@@ -51,6 +51,10 @@ fastapi==0.70.1
     # via -r requirements/prod.in
 flower==1.0.0
     # via -r requirements/prod.in
+grpcio==1.43.0
+    # via grpcio-tools
+grpcio-tools==1.43.0
+    # via -r requirements/prod.in
 h11==0.12.0
     # via
     #   httpcore
@@ -86,6 +90,8 @@ prometheus-client==0.12.0
     # via flower
 prompt-toolkit==3.0.24
     # via click-repl
+protobuf==3.19.1
+    # via grpcio-tools
 py==1.11.0
     # via pytest
 pydantic==1.8.2
@@ -109,6 +115,7 @@ rfc3986[idna2008]==1.5.0
 six==1.16.0
     # via
     #   click-repl
+    #   grpcio
     #   python-multipart
 sniffio==1.2.0
     # via
