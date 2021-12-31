@@ -20,7 +20,7 @@ RUN pip install --upgrade pip && \
     pip install pip-tools
 RUN pip-sync requirements/prod.txt requirements/dev.txt
 
-RUN python3 -m grpc_tools.protoc -Iprotos --python_out=backend/grpc/ --grpc_python_out=backend/grpc/ protos/upload.proto
+RUN python3 -m grpc_tools.protoc -Ibackend/grpc --python_out=backend/grpc/protos/ --grpc_python_out=backend/grpc/protos backend/grpc/protos/upload.proto
 
 USER appuser
 

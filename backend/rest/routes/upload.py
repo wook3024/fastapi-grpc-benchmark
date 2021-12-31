@@ -4,8 +4,8 @@ from datetime import datetime
 from threading import Thread
 from fastapi.responses import ORJSONResponse
 
-from backend.utils.save import save_bytes_data
-from backend.rest import schemas
+from ...utils.save import save_bytes_data
+from .. import schemas
 
 
 router = APIRouter()

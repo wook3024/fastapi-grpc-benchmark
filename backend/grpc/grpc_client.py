@@ -7,8 +7,6 @@ from alive_progress import alive_bar
 import upload_pb2
 import upload_pb2_grpc
 
-from backend.utils.utils import elapsed_time
-
 
 def run(image_path, data):
     with grpc.insecure_channel("localhost:50051") as channel:

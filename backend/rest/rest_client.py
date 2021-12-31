@@ -1,4 +1,3 @@
-import time
 import argparse
 
 from httpx import Client

@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 
-from backend.rest.routes import index, upload, background_task
+from .routes import index, upload, background_task
 
 
 app = FastAPI(

@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
     syntax="proto3",
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
-    serialized_pb=b'\n\x0cupload.proto\x12\x06upload";\n\x12UploadImageRequest\x12\x13\n\x0bdata\x18\x01 \x01(\x0c\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t"\x1f\n\x10UploadImageReply\x12\x0b\n\x03url\x18\x01 \x01(\t2O\n\x06Upload\x12\x45\n\x0bUploadImage\x12\x1a.upload.UploadImageRequest\x1a\x18.upload.UploadImageReply"\x00\x62\x06proto3',
+    serialized_pb=b'\n\x0cupload.proto\x12\x06upload"4\n\x12UploadImageRequest\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t"\x1f\n\x10UploadImageReply\x12\x0b\n\x03url\x18\x01 \x01(\t2O\n\x06Upload\x12\x45\n\x0bUploadImage\x12\x1a.upload.UploadImageRequest\x1a\x18.upload.UploadImageReply"\x00\x62\x06proto3',  # noqa: E501
 )
 
 
@@ -78,7 +78,7 @@ _UPLOADIMAGEREQUEST = _descriptor.Descriptor(
     extension_ranges=[],
     oneofs=[],
     serialized_start=24,
-    serialized_end=83,
+    serialized_end=76,
 )
 
 
@@ -118,8 +118,8 @@ _UPLOADIMAGEREPLY = _descriptor.Descriptor(
     syntax="proto3",
     extension_ranges=[],
     oneofs=[],
-    serialized_start=85,
-    serialized_end=116,
+    serialized_start=78,
+    serialized_end=109,
 )
 
 DESCRIPTOR.message_types_by_name["UploadImageRequest"] = _UPLOADIMAGEREQUEST
@@ -156,8 +156,8 @@ _UPLOAD = _descriptor.ServiceDescriptor(
     index=0,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
-    serialized_start=118,
-    serialized_end=197,
+    serialized_start=111,
+    serialized_end=190,
     methods=[
         _descriptor.MethodDescriptor(
             name="UploadImage",
