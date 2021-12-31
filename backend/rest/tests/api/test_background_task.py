@@ -11,7 +11,7 @@ def test_redirect(test_client):
 
 def test_save_image_task(test_client):
     image_path = Path("assets", "fluentd-icon-color.png")
-    image_bytes = image_path.read_bytes()
+    data = image_path.read_bytes()
     delay = 1
     client = Client()
     background_task_url = "http://localhost:8000/background_task"
@@ -19,7 +19,7 @@ def test_save_image_task(test_client):
         url=background_task_url,
         files={
             "delay": (None, str(delay).encode()),
-            "file": (image_path.name, image_bytes, "image/png"),
+            "file": (image_path.name, data, "image/png"),
         },
     )
     result = response.json()
