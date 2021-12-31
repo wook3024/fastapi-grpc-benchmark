@@ -1,56 +1,27 @@
-# Tasks queue with FastAPI and Celery
-
-How to handle background processes with FastAPI, Celery, Redis, RabbitMQ.
+# gRPC vs FastAPI Benchmark
 
 ## Quickstart
 
-### Build and start containers:
+### Build and start containers
 
 ```sh
-docker-compose up --build
+docker-compose up -d --build
 ```
 
-Api docs: [http://localhost:8000/docs](http://localhost:8000/docs)
-Flower dashboard: [http://localhost:5555](http://localhost:5555)
-
-### Create task
+### Run grpc request
 
 ```sh
-curl -X 'POST' \
-  'http://0.0.0.0:8000/background_task' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: multipart/form-data' \
-  -F 'delay=1' \
-  -F 'file=@assets/fluentd-icon-color.png;type=image/png'
+docker exec -it web bash -c "python3 backend/grpc/grpc_client.py"
 ```
 
-### Check task status
+### Run rest request
 
 ```sh
-curl -X 'GET' \
-  'http://0.0.0.0:8000/background_task/${id}' \
-  -H 'accept: application/json'
+docker exec -it web bash -c "python3 backend/rest/rest_client.py"
 ```
 
-### Multiple request
-```sh
-curl -X 'POST' \
-  'http://0.0.0.0:8000/background_task/multiple' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: multipart/form-data' \
-  -F 'delay=1' \
-  -F 'files=@fluentd-icon-color.png;type=image/png' \
-  -F 'files=@fluentd-icon-color.png;type=image/png' \
-  -F 'files=@fluentd-icon-color.png;type=image/png'
+## Comparison results
 ```
-### Comparison method
-```sh
-curl -X 'POST' \
-  'http://0.0.0.0:8000/background_task/comparison' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: multipart/form-data' \
-  -F 'count=10' \
-  -F 'delay=1' \
-  -F 'method_list=ray,default,celery' \
-  -F 'file=@fluentd-icon-color.png;type=image/png'
+Rest |████████████████████████████████████████| 100/100 [100%] in 4.9s (20.52/s)
+gRPC |████████████████████████████████████████| 100/100 [100%] in 1.0s (96.56/s)
 ```
