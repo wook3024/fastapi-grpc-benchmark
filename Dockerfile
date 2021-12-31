@@ -20,8 +20,10 @@ RUN pip install --upgrade pip && \
     pip install pip-tools
 RUN pip-sync requirements/prod.txt requirements/dev.txt
 
+RUN python3 -m grpc_tools.protoc -Iprotos --python_out=backend/grpc/ --grpc_python_out=backend/grpc/ protos/upload.proto
+
 USER appuser
 
 RUN mkdir /tmp/logs
 
-ENTRYPOINT [ "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--reload", "--reload-exclude", "logs/" ]
+ENTRYPOINT [ "sh", "run_server.sh"]

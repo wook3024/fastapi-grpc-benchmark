@@ -49,7 +49,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/workspace:rw
+      - ./assets:/workspace/assets:rw
       - ${BASE_VOLUME_DIR:-./logs}/web:/tmp/logs:rw
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL:-redis://redis}
